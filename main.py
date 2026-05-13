@@ -1,7 +1,7 @@
 # ─────────────────────────────────────────────
 #  main.py  –  Entry point
 # ─────────────────────────────────────────────
-from game import Game
+import game
 
 if __name__ == "__main__":
-    Game().run()
+    game.Game().run()
