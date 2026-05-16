@@ -1,7 +1,8 @@
 # ─────────────────────────────────────────────
 #  game.py  –  Game loop, states, rendering, UI
 # ─────────────────────────────────────────────
-import pygame, sys, math, random
+import pygame  # type: ignore[import]
+import sys, math, random
 from settings import *
 from snake  import Snake
 from food   import Food
@@ -12,8 +13,8 @@ from typing import Tuple
 # ══════════════════════════════════════════════
 #  Particle  (eat / win / death effects)
 # ══════════════════════════════════════════════
-class Particle:: float, y: float, colour: Tuple[int, int, int]
-    def __init__(self, x, y, colour):
+class Particle:
+    def __init__(self, x: float, y: float, colour: Tuple[int, int, int]):
         angle  = random.uniform(0, math.pi * 2)
         speed  = random.uniform(1.5, 5)
         self.x = x;  self.y = y
