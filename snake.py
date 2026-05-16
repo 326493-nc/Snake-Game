@@ -1,3 +1,8 @@
+# ╔═══════════════════════════════════════════════════════════════════╗
+# ║  Copyright (c) 2026  Christo Joseph  –  All rights reserved       ║
+# ║  BTEC L3 Extended Diploma in IT  |  Slough and Langley College    ║
+# ║  Unauthorised copying or modification is strictly prohibited.     ║
+# ╚═══════════════════════════════════════════════════════════════════╝
 # ─────────────────────────────────────────────
 #  snake.py  –  Snake entity
 # ─────────────────────────────────────────────

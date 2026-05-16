@@ -1,4 +1,26 @@
-# ─────────────────────────────────────────────
+# ╔══════════════════════════════════════════════════════════════╗
+# ║                 SNAKE GAME  –  2026 Edition                  ║
+# ║                                                              ║
+# ║  Copyright (c) 2026  Christo Joseph                          ║
+# ║  All rights reserved.                                        ║
+# ║                                                              ║
+# ║  Created for:  BTEC Level 3 Extended Diploma in IT /         ║
+# ║                Unit 4 Assignment 2                           ║
+# ║  Institution:  Slough and Langley College                    ║
+# ║  Student ID:   326493                                        ║
+# ║                                                              ║
+# ║  LICENCE NOTICE                                              ║
+# ║  This source code is the original work of the author above.  ║
+# ║  Unauthorised copying, modification, redistribution or use   ║
+# ║  of this file, in whole or in part, is strictly prohibited   ║
+# ║  without the express written permission of the author.       ║
+# ║                                                              ║
+# ║  This project was submitted as academic coursework.          ║
+# ║  Any reproduction without attribution constitutes            ║
+# ║  academic plagiarism and may be subject to disciplinary      ║
+# ║  action by the institution.                                  ║
+# ╚══════════════════════════════════════════════════════════════╝
+#
 #  game.py  –  Game loop, states, rendering, UI
 #  v2  –  Smooth interpolated movement (no jumps)
 # ─────────────────────────────────────────────
@@ -12,6 +34,10 @@ from utils  import load_highscore, save_highscore
 # ══════════════════════════════════════════════
 #  Helpers
 # ══════════════════════════════════════════════
+# ── Copyright string (rendered in-game) ──────
+COPYRIGHT = "\u00a9 2025 [YOUR NAME]  |  All rights reserved  |  BTEC L3 Assignment"
+
+
 def lerp(a: float, b: float, t: float) -> float:
     return a + (b - a) * t
 
@@ -469,6 +495,24 @@ class Game:
         self.screen.blit(h_lbl, (SCREEN_W - h_lbl.get_width() - pad, pad))
         self.screen.blit(h_val, (SCREEN_W - h_val.get_width() - pad, pad+14))
 
+        self._draw_watermark()
+
+    # ══════════════════════════════════════════
+    #  Watermark / authorship stamp
+    # ══════════════════════════════════════════
+    def _draw_watermark(self):
+        """
+        Renders a semi-transparent copyright notice at the bottom of the screen.
+        This identifies the original author visually inside the running game.
+        Removing or hiding this watermark does not remove the legal copyright
+        declared at the top of this file.
+        """
+        wm = self.font_xs.render(COPYRIGHT, True, (60, 70, 90))
+        wm.set_alpha(140)
+        x = SCREEN_W // 2 - wm.get_width() // 2
+        y = SCREEN_H - wm.get_height() - 4
+        self.screen.blit(wm, (x, y))
+
     # ══════════════════════════════════════════
     #  Overlay / popup helpers
     # ══════════════════════════════════════════
@@ -524,6 +568,8 @@ class Game:
                                 "R  –  Restart     M  –  Menu"]):
             s = self.font_xs.render(h, True, C_MUTED)
             self.screen.blit(s, s.get_rect(centerx=SCREEN_W//2, top=340+j*22))
+
+        self._draw_watermark()
 
     def _hovered_button(self, pos):
         for lbl, rect in self._menu_rects.items():

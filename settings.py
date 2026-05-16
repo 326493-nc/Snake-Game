@@ -1,6 +1,10 @@
-# ─────────────────────────────────────────────
-#  settings.py  –  Global constants
-# ─────────────────────────────────────────────
+# ╔═══════════════════════════════════════════════════════════════════╗
+# ║  Copyright (c) 2026  Christo Joseph  –  All rights reserved       ║
+# ║  BTEC L3 Extended Diploma in IT  |  Slough and Langley College    ║
+# ║  Unauthorised copying or modification is strictly prohibited.     ║
+# ╚═══════════════════════════════════════════════════════════════════╝
+#
+# settings.py  –  Global constants
 
 # Window
 TITLE        = "SNAKE  •  2025 Edition"
