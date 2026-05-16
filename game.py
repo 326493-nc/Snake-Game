@@ -1,13 +1,13 @@
 # ╔══════════════════════════════════════════════════════════════╗
-# ║                 SNAKE GAME  –  2026 Edition                  ║
+# ║           SNAKE GAME  –  2025 Edition                        ║
 # ║                                                              ║
-# ║  Copyright (c) 2026  Christo Joseph                          ║
+# ║  Copyright (c) 2025  [YOUR FULL NAME]                        ║
 # ║  All rights reserved.                                        ║
 # ║                                                              ║
-# ║  Created for:  BTEC Level 3 Extended Diploma in IT /         ║
-# ║                Unit 4 Assignment 2                           ║
-# ║  Institution:  Slough and Langley College                    ║
-# ║  Student ID:   326493                                        ║
+# ║  Created for:  BTEC Level 3 Computer Science /               ║
+# ║                Games Development Assignment                  ║
+# ║  Institution:  [YOUR COLLEGE NAME]                           ║
+# ║  Student ID:   [YOUR STUDENT ID]                             ║
 # ║                                                              ║
 # ║  LICENCE NOTICE                                              ║
 # ║  This source code is the original work of the author above.  ║
@@ -17,7 +17,7 @@
 # ║                                                              ║
 # ║  This project was submitted as academic coursework.          ║
 # ║  Any reproduction without attribution constitutes            ║
-# ║  academic plagiarism and may be subject to disciplinary      ║
+# ║  academic plagiarism and may be subject to disciplinary       ║
 # ║  action by the institution.                                  ║
 # ╚══════════════════════════════════════════════════════════════╝
 #
@@ -122,11 +122,14 @@ class SmoothSegment:
 #  Game
 # ══════════════════════════════════════════════
 class Game:
+    SPLASH   = "splash"
     MENU     = "menu"
     PLAYING  = "playing"
     PAUSED   = "paused"
     GAMEOVER = "gameover"
     WIN      = "win"
+
+    SPLASH_DURATION = 3500   # milliseconds to show copyright screen
 
     def __init__(self):
         pygame.init()
@@ -147,7 +150,8 @@ class Game:
         self.font_xs = pygame.font.SysFont("consolas", 13)
 
         self.highscore  = load_highscore()
-        self.state      = self.MENU
+        self.state      = self.SPLASH          # ← start on splash screen
+        self._splash_start = pygame.time.get_ticks()
         self.difficulty = "Medium"
 
         # game objects
@@ -212,6 +216,11 @@ class Game:
     def run(self):
         while True:
             dt = self.clock.tick(FPS) / 1000.0   # seconds since last frame
+            # auto-advance splash after SPLASH_DURATION ms
+            if self.state == self.SPLASH:
+                elapsed = pygame.time.get_ticks() - self._splash_start
+                if elapsed >= self.SPLASH_DURATION:
+                    self.state = self.MENU
             self._handle_events()
             self._update(dt)
             self._draw()
@@ -233,6 +242,10 @@ class Game:
 
     def _on_key(self, key):
         s = self.state
+        # any key skips the splash screen
+        if s == self.SPLASH:
+            self.state = self.MENU
+            return
         if s == self.PLAYING:
             if   key == pygame.K_UP:    self.snake.change_direction((0, -1))
             elif key == pygame.K_DOWN:  self.snake.change_direction((0,  1))
@@ -255,6 +268,10 @@ class Game:
             elif key == pygame.K_m: self.state = self.MENU
 
     def _on_click(self, pos):
+        # clicking anywhere skips the splash
+        if self.state == self.SPLASH:
+            self.state = self.MENU
+            return
         if self.state == self.MENU:
             btn = self._hovered_button(pos)
             if btn in DIFFICULTIES:
@@ -389,10 +406,11 @@ class Game:
         if self.state in (self.PLAYING, self.PAUSED, self.GAMEOVER, self.WIN):
             self._draw_hud()
 
-        if   self.state == self.MENU:     self._draw_menu()
-        elif self.state == self.PAUSED:   self._draw_popup_paused()
-        elif self.state == self.GAMEOVER: self._draw_popup_gameover()
-        elif self.state == self.WIN:      self._draw_popup_win()
+        if   self.state == self.SPLASH:    self._draw_splash()
+        elif self.state == self.MENU:      self._draw_menu()
+        elif self.state == self.PAUSED:    self._draw_popup_paused()
+        elif self.state == self.GAMEOVER:  self._draw_popup_gameover()
+        elif self.state == self.WIN:       self._draw_popup_win()
 
         pygame.display.flip()
 
@@ -534,6 +552,85 @@ class Game:
         pygame.draw.rect(self.screen, col, rect, 2, border_radius=8)
         lbl = self.font_sm.render(text, True, col)
         self.screen.blit(lbl, lbl.get_rect(center=rect.center))
+
+    # ── SPLASH (copyright screen on launch) ──
+    def _draw_splash(self):
+        elapsed  = pygame.time.get_ticks() - self._splash_start
+        progress = min(1.0, elapsed / self.SPLASH_DURATION)
+
+        # fade-in for first 0.4 s, fade-out for last 0.4 s
+        fade_ms  = 400
+        if elapsed < fade_ms:
+            alpha = int((elapsed / fade_ms) * 255)
+        elif elapsed > self.SPLASH_DURATION - fade_ms:
+            alpha = int(((self.SPLASH_DURATION - elapsed) / fade_ms) * 255)
+        else:
+            alpha = 255
+
+        self.screen.fill(C_BG)
+
+        # thin animated border that fills up like a progress bar
+        bar_w = int(SCREEN_W * progress)
+        pygame.draw.rect(self.screen, C_GREEN, (0, SCREEN_H - 3, bar_w, 3))
+
+        # ── content surface (so we can alpha-blend the whole thing) ──
+        surf = pygame.Surface((SCREEN_W, SCREEN_H), pygame.SRCALPHA)
+
+        # snake logo small
+        logo = self.font_lg.render("SNAKE", True, C_GREEN)
+        surf.blit(logo, logo.get_rect(centerx=SCREEN_W//2, top=110))
+
+        edition = self.font_xs.render("2025 EDITION", True, C_MUTED)
+        surf.blit(edition, edition.get_rect(centerx=SCREEN_W//2, top=162))
+
+        # divider
+        pygame.draw.rect(surf, (30, 45, 65),
+                         (SCREEN_W//2 - 160, 195, 320, 1))
+
+        # copyright box
+        lines = [
+            ("© 2025  [YOUR FULL NAME]",          C_WHITE,  self.font_md),
+            ("All rights reserved.",               C_MUTED,  self.font_sm),
+            ("",                                   C_MUTED,  self.font_xs),
+            ("BTEC Level 3 Computer Science",      (100,120,150), self.font_sm),
+            ("Games Development Assignment",       (100,120,150), self.font_sm),
+            ("",                                   C_MUTED,  self.font_xs),
+            ("[YOUR COLLEGE NAME]",                C_MUTED,  self.font_xs),
+            ("Student ID:  [YOUR STUDENT ID]",     C_MUTED,  self.font_xs),
+        ]
+
+        y = 215
+        for text, colour, font in lines:
+            if text == "":
+                y += 8
+                continue
+            s = font.render(text, True, colour)
+            surf.blit(s, s.get_rect(centerx=SCREEN_W//2, top=y))
+            y += s.get_height() + 5
+
+        # divider
+        pygame.draw.rect(surf, (30, 45, 65),
+                         (SCREEN_W//2 - 160, y + 6, 320, 1))
+        y += 18
+
+        # licence notice
+        notice_lines = [
+            "This software is the original work of the author above.",
+            "Unauthorised copying, modification or redistribution",
+            "is strictly prohibited without written permission.",
+        ]
+        for nl in notice_lines:
+            s = self.font_xs.render(nl, True, (55, 65, 80))
+            surf.blit(s, s.get_rect(centerx=SCREEN_W//2, top=y))
+            y += s.get_height() + 3
+
+        # skip hint  (pulse on/off)
+        if int(elapsed / 500) % 2 == 0:
+            skip = self.font_xs.render("Press any key or click to continue", True, (45, 55, 70))
+            surf.blit(skip, skip.get_rect(centerx=SCREEN_W//2, top=SCREEN_H - 28))
+
+        surf.set_alpha(alpha)
+        self.screen.blit(surf, (0, 0))
 
     # ── MENU ──────────────────────────────────
     def _draw_menu(self):
