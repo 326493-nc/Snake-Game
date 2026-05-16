@@ -35,7 +35,7 @@ from utils  import load_highscore, save_highscore
 #  Helpers
 # ══════════════════════════════════════════════
 # ── Copyright string (rendered in-game) ──────
-COPYRIGHT = "\u00a9 2025 [YOUR NAME]  |  All rights reserved  |  BTEC L3 Assignment"
+COPYRIGHT = "\u00a9 2026 Christo Joseph  |  All rights reserved  |  BTEC Level 3 Assignment"
 
 
 def lerp(a: float, b: float, t: float) -> float:
@@ -391,7 +391,7 @@ class Game:
         self.screen.fill(C_BG)
         self._draw_grid(ox, oy)
 
-        if self.state != self.MENU:
+        if self.state not in (self.SPLASH, self.MENU):
             self._draw_food(ox, oy)
             seg_alpha = 100 if self.state in (self.GAMEOVER, self.WIN) else 255
             self._draw_snake(ox, oy, seg_alpha)
@@ -589,14 +589,14 @@ class Game:
 
         # copyright box
         lines = [
-            ("© 2025  [YOUR FULL NAME]",          C_WHITE,  self.font_md),
-            ("All rights reserved.",               C_MUTED,  self.font_sm),
-            ("",                                   C_MUTED,  self.font_xs),
-            ("BTEC Level 3 Computer Science",      (100,120,150), self.font_sm),
-            ("Games Development Assignment",       (100,120,150), self.font_sm),
-            ("",                                   C_MUTED,  self.font_xs),
-            ("[YOUR COLLEGE NAME]",                C_MUTED,  self.font_xs),
-            ("Student ID:  [YOUR STUDENT ID]",     C_MUTED,  self.font_xs),
+            ("© 2025  Christo Joseph",                  C_WHITE,  self.font_md),
+            ("All rights reserved.",                    C_MUTED,  self.font_sm),
+            ("",                                        C_MUTED,  self.font_xs),
+            ("BTEC Level 3 Extended Diploma in IT",     (100,120,150), self.font_sm),
+            ("Unit 4 Programming Assignment 2",         (100,120,150), self.font_sm),
+            ("",                                        C_MUTED,  self.font_xs),
+            ("Slough and Langley College",              C_MUTED,  self.font_xs),
+            ("Student ID:  326493",                     C_MUTED,  self.font_xs),
         ]
 
         y = 215
