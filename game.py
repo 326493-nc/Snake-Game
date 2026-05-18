@@ -4,10 +4,10 @@
 # ║  Copyright (c) 2025  [YOUR FULL NAME]                        ║
 # ║  All rights reserved.                                        ║
 # ║                                                              ║
-# ║  Created for:  BTEC Level 3 Computer Science /               ║
-# ║                Games Development Assignment                  ║
-# ║  Institution:  [YOUR COLLEGE NAME]                           ║
-# ║  Student ID:   [YOUR STUDENT ID]                             ║
+# ║  Created for:  BTEC Level 3 Extended Diploma in IT /         ║
+# ║                Unit 4 Programming                            ║
+# ║  Institution:  Slough and Langley College                    ║
+# ║  Student ID:   326493                                        ║
 # ║                                                              ║
 # ║  LICENCE NOTICE                                              ║
 # ║  This source code is the original work of the author above.  ║
@@ -17,7 +17,7 @@
 # ║                                                              ║
 # ║  This project was submitted as academic coursework.          ║
 # ║  Any reproduction without attribution constitutes            ║
-# ║  academic plagiarism and may be subject to disciplinary       ║
+# ║  academic plagiarism and may be subject to disciplinary      ║
 # ║  action by the institution.                                  ║
 # ╚══════════════════════════════════════════════════════════════╝
 #
