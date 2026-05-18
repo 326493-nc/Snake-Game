@@ -1,7 +1,7 @@
 # ╔══════════════════════════════════════════════════════════════╗
 # ║           SNAKE GAME  –  2025 Edition                        ║
 # ║                                                              ║
-# ║  Copyright (c) 2025  [YOUR FULL NAME]                        ║
+# ║  Copyright (c) 2025  Christo Joseph                          ║
 # ║  All rights reserved.                                        ║
 # ║                                                              ║
 # ║  Created for:  BTEC Level 3 Extended Diploma in IT /         ║
